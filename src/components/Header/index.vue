@@ -58,15 +58,17 @@ export default {
     methods: {
         // 点击按钮跳转到 search 路由
         goSearch() {
-            this.$router.push({
+            let location = {
                 name: 'search',
                 params: {
                     keyword: this.keyword || undefined,
                 },
-                query: {
-                    k: this.keyword,
-                },
-            });
+            };
+            // 合并参数, 如果用户点击率三级分类,路由中将携带query参数,将该参数合并到地址中
+            if (this.$route.query) {
+                location.query = this.$route.query;
+            }
+            this.$router.push(location);
         },
     },
 };

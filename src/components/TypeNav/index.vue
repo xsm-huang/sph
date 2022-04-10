@@ -117,8 +117,8 @@ export default {
         },
     },
     mounted() {
-        // 通知 Vuex 发请求，获取数据并存储于仓库中
-        this.$store.dispatch('homeAbout/categoryList');
+        // 通知 Vuex 发请求，获取数据并存储于仓库中 (优化 -- 放到App组件中,使数据只请求一次)
+        // this.$store.dispatch('homeAbout/categoryList');
 
         // 当组件挂载完毕, 判断是否显示分类导航
         if (this.$route.path !== '/home') {
@@ -237,6 +237,10 @@ export default {
                                 }
                             }
                         }
+                    }
+
+                    a {
+                        cursor: pointer;
                     }
 
                     &:hover {

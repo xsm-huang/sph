@@ -14,6 +14,10 @@ import Footer from './components/Footer/index';
 export default {
     name: 'App',
     components: { Header, Footer },
+    mounted() {
+        // 通知 Vuex 发请求，获取三级列表数据并存储于仓库中
+        this.$store.dispatch('homeAbout/categoryList'); // 优化方法, 确保只加载一次
+    },
 };
 </script>
 
