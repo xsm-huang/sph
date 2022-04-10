@@ -3,16 +3,20 @@
  * @description home 模块仓库
  */
 
-import { reqCategoryList } from '@/api';
+import { reqCategoryList, reqBannerList } from '@/api';
 
 // state 仓库存储数据的地方
 const state = {
-    categoryList: [],
+    categoryList: [], // 三级联动组件
+    bannerList: [], // 轮播图
 };
 // mutations 修改state的唯一手段
 const mutations = {
     CATEGORYLIST(state, categoryList) {
         state.categoryList = categoryList;
+    },
+    GETBANNERLIST(state, bannerList) {
+        state.bannerList = bannerList;
     },
 };
 // actions 处理action，可以书写自己的业务逻辑，也可以处理异步
@@ -22,6 +26,13 @@ const actions = {
         const res = await reqCategoryList();
         if (res.code === 200) {
             context.commit('CATEGORYLIST', res.data);
+        }
+    },
+
+    async getBannerList(context) {
+        const res = await reqBannerList();
+        if (res.code === 200) {
+            context.commit('GETBANNERLIST', res.data);
         }
     },
 };
