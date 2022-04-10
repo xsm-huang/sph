@@ -11,3 +11,6 @@ export const reqCategoryList = () =>
 // 获取banner
 // export const reqBannerList = () => mockRequest.get('/banner');
 export const reqBannerList = () => mockRequest({ url: '/banner', method: 'GET' });
+
+// 获取floor
+export const reqFloorList = () => mockRequest.get('/floor');

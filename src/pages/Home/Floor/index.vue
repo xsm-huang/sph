@@ -94,7 +94,10 @@
 </template>
 
 <script>
-export default {};
+export default {
+    name: '',
+    props: ['list'],
+};
 </script>
 
 <style lang="less" scoped>

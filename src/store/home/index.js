@@ -3,12 +3,13 @@
  * @description home 模块仓库
  */
 
-import { reqCategoryList, reqBannerList } from '@/api';
+import { reqCategoryList, reqBannerList, reqFloorList } from '@/api';
 
-// state 仓库存储数据的地方
+// state 仓库存储数据的地方 -- 数据的格式取决于服务器返回的数据, 不可以乱写
 const state = {
     categoryList: [], // 三级联动组件
     bannerList: [], // 轮播图
+    floorList: [],
 };
 // mutations 修改state的唯一手段
 const mutations = {
@@ -17,6 +18,9 @@ const mutations = {
     },
     GETBANNERLIST(state, bannerList) {
         state.bannerList = bannerList;
+    },
+    GETFLOORLIST(state, floorList) {
+        state.floorList = floorList;
     },
 };
 // actions 处理action，可以书写自己的业务逻辑，也可以处理异步
@@ -33,6 +37,13 @@ const actions = {
         const res = await reqBannerList();
         if (res.code === 200) {
             context.commit('GETBANNERLIST', res.data);
+        }
+    },
+
+    async getFloorList(context) {
+        const res = await reqFloorList();
+        if (res.code === 200) {
+            context.commit('GETFLOORLIST', res.data);
         }
     },
 };
