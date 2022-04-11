@@ -4,19 +4,7 @@
         <div class="sortList clearfix">
             <div class="center">
                 <!--banner轮播-->
-                <div class="swiper-container" id="mySwiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="carousel in bannerList" :key="carousel.id">
-                            <img :src="carousel.imgUrl" />
-                        </div>
-                    </div>
-                    <!-- 如果需要分页器 -->
-                    <div class="swiper-pagination"></div>
-
-                    <!-- 如果需要导航按钮 -->
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-                </div>
+                <Carousel :list="bannerList" />
             </div>
             <div class="right">
                 <div class="news">
@@ -93,46 +81,12 @@
 
 <script>
 import { mapState } from 'vuex';
-import swiper from 'swiper'; // 引包 轮播图
 export default {
     name: 'ListContainer',
     computed: {
         ...mapState('homeAbout', ['bannerList']),
     },
-    watch: {
-        // 监听 bannerList 数据的变化: 因为这条数据发生过变化 -- 从空数组变成服务器发送来的数据
-        bannerList: {
-            handler(newVal, oldVal) {
-                // 初始化 swiper
-                // 当前数据已经执行, 但是没办法保证 v-for 已经执行完毕, 即结构还没有完整
-                // $nextTick官网解释: 在下次DOM更新, 循环结束之后,执行延迟回调, 在修改数据之后立即使用这个方法, 获取更新后的DOM
-                this.$nextTick(() => {
-                    // 此时数据一定已经更新, 且结构渲染完毕
-                    var mySwiper = new swiper('.swiper-container', {
-                        // direction: 'vertical', // 垂直切换选项
-                        loop: true, // 循环模式选项
 
-                        // 如果需要分页器
-                        pagination: {
-                            el: '.swiper-pagination',
-                            clickable: true, // 小圆点可点
-                        },
-
-                        // 如果需要前进后退按钮
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        },
-
-                        // 如果需要滚动条
-                        // scrollbar: {
-                        //     el: '.swiper-scrollbar',
-                        // },
-                    });
-                });
-            },
-        },
-    },
     mounted() {
         this.$store.dispatch('homeAbout/getBannerList'); // 获取轮播图数据
     },
