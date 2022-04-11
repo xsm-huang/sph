@@ -11,8 +11,16 @@
                         </li>
                     </ul>
                     <ul class="fl sui-tag">
-                        <li class="with-x">手机</li>
-                        <li class="with-x">iphone<i>×</i></li>
+                        <!-- 分类 -->
+                        <li class="with-x" v-if="searchParams.categoryName">
+                            {{ searchParams.categoryName }}
+                            <i @click="removeCategoryName">×</i>
+                        </li>
+                        <!-- 关键字 -->
+                        <li class="with-x" v-if="searchParams.keyword">
+                            {{ searchParams.keyword }}
+                            <i @click="removeKeyword">×</i>
+                        </li>
                         <li class="with-x">华为<i>×</i></li>
                         <li class="with-x">OPPO<i>×</i></li>
                     </ul>
@@ -143,29 +151,54 @@ export default {
         };
     },
     computed: {
-        ...mapGetters('searchAbout', ['goodsList', 'attrsList', 'trademarkList']),
+        ...mapGetters('searchAbout', ['goodsList']),
     },
     watch: {
+        // 监听路由路径变化,并据此重新发送Ajax,展示新的商品
         $route(newVal, OldVal) {
-            this.searchParams.category1Id = '';
-            this.searchParams.category2Id = '';
-            this.searchParams.category3Id = '';
+            this.searchParams.category1Id = undefined;
+            this.searchParams.category2Id = undefined;
+            this.searchParams.category3Id = undefined;
             Object.assign(this.searchParams, this.$route.params, this.$route.query); // 更新数据
             this.getData(); // 发送 Ajax 请求
         },
     },
     methods: {
-        /**
-         * @function 向服务器发送请求,获取search模块数据,封装成一个函数,以便在需要时调用
-         */
+        // 向服务器发送请求,获取search模块数据,封装成一个函数,以便在需要时调用
         getData() {
             this.$store.dispatch('searchAbout/getSearchList', this.searchParams);
+        },
+        // 删除分类的名字
+        removeCategoryName() {
+            this.searchParams.category1Id = undefined;
+            this.searchParams.category2Id = undefined;
+            this.searchParams.category3Id = undefined;
+            this.searchParams.categoryName = undefined; // 不仅需要清空分类名,还需要清空相应的id
+            this.getData(); // 发送请求
+            // 需要修改地址栏: 进行路由跳转
+            if (this.$router.params) {
+                this.$router.push({ name: 'search', params: this.$router.params });
+            } else {
+                this.$router.push({ name: 'search' });
+            }
+        },
+        // 删除关键字
+        removeKeyword() {
+            this.searchParams.keyword = undefined;
+            this.getData();
+            // 还需要清空搜索框数据(Header组件中 - 兄弟组件 -- 使用全局事件总线)
+            this.$bus.$emit('clear');
+            // 路由跳转, 更新url地址
+            if (this.$router.query) {
+                this.$router.push({ name: 'search', query: this.$router.query });
+            } else {
+                this.$router.push({ name: 'search' });
+            }
         },
     },
     // 在组件挂载完毕和mounted之前执行一次
     beforeMount() {
         Object.assign(this.searchParams, this.$route.query, this.$route.params);
-        console.log(this.searchParams);
     },
     mounted() {
         this.getData();

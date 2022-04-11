@@ -52,7 +52,7 @@ export default {
     name: '',
     data() {
         return {
-            keyword: '',
+            keyword: '', // 搜索框内容
         };
     },
     methods: {
@@ -70,6 +70,13 @@ export default {
             }
             this.$router.push(location);
         },
+    },
+
+    mounted() {
+        // 全局事件总线 -- 清空搜索框内容
+        this.$bus.$on('clear', () => {
+            this.keyword = '';
+        });
     },
 };
 </script>

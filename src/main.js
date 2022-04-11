@@ -18,4 +18,7 @@ new Vue({
     render: (h) => h(App),
     router, // 注册路由
     store, // 注册仓库
+    beforeCreate() {
+        Vue.prototype.$bus = this; // 全局事件总线
+    },
 }).$mount('#app');

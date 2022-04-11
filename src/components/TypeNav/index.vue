@@ -102,7 +102,7 @@ export default {
             // 确定点击是a标签
             if (categoryname) {
                 let location = { name: 'search' };
-                let query = { categoryname };
+                let query = { categoryName: categoryname };
                 if (categoryid1) {
                     query.category1Id = categoryid1;
                 } else if (categoryid2) {
