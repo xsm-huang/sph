@@ -21,11 +21,17 @@
                             {{ searchParams.keyword }}
                             <i @click="removeKeyword">×</i>
                         </li>
+                        <!-- 品牌信息 -->
+                        <li class="with-x" v-if="searchParams.trademark">
+                            {{ searchParams.trademark.split(':')[1] }}
+                            <i @click="removeTrademark">×</i>
+                        </li>
+                        <!-- 平台售卖属性 -->
                     </ul>
                 </div>
 
                 <!--selector-->
-                <SearchSelector />
+                <SearchSelector @trademarkInfo="trademarkInfo" />
 
                 <!--details-->
                 <div class="details clearfix">
@@ -192,6 +198,16 @@ export default {
             } else {
                 this.$router.push({ name: 'search' });
             }
+        },
+        // 删除品牌信息
+        removeTrademark() {
+            this.searchParams.trademark = undefined;
+            this.getData();
+        },
+        // 自定义事件 -- 子组件触发事件, 父组件接收事件
+        trademarkInfo(trademark) {
+            this.searchParams.trademark = `${trademark.tmId}: ${trademark.tmName}`;
+            this.getData();
         },
     },
     // 在组件挂载完毕和mounted之前执行一次
