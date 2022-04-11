@@ -21,8 +21,6 @@
                             {{ searchParams.keyword }}
                             <i @click="removeKeyword">×</i>
                         </li>
-                        <li class="with-x">华为<i>×</i></li>
-                        <li class="with-x">OPPO<i>×</i></li>
                     </ul>
                 </div>
 
