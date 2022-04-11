@@ -25,7 +25,18 @@ const actions = {
         }
     },
 };
-const getters = {};
+// 简化数据,方便组件取用
+const getters = {
+    goodsList(state) {
+        return state.searchList.goodsList || [];
+    },
+    attrsList(state) {
+        return state.searchList.attrsList || [];
+    },
+    trademarkList(state) {
+        return state.searchList.trademarkList || [];
+    },
+};
 
 export default {
     namespaced: true,

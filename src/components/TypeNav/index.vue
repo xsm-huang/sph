@@ -104,11 +104,11 @@ export default {
                 let location = { name: 'search' };
                 let query = { categoryname };
                 if (categoryid1) {
-                    query.categoryid = categoryid1;
+                    query.category1Id = categoryid1;
                 } else if (categoryid2) {
-                    query.categoryid = categoryid2;
+                    query.category2Id = categoryid2;
                 } else if (categoryid3) {
-                    query.categoryid = categoryid3;
+                    query.category3Id = categoryid3;
                 }
 
                 location.query = query;

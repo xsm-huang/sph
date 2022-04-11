@@ -14,7 +14,6 @@ Vue.config.productionTip = false;
 Vue.component(TypeNav.name, TypeNav);
 Vue.component(Carousel.name, Carousel);
 
-// store.dispatch('searchAbout/getSearchList', {});
 new Vue({
     render: (h) => h(App),
     router, // 注册路由
