@@ -27,11 +27,19 @@
                             <i @click="removeTrademark">×</i>
                         </li>
                         <!-- 平台售卖属性 -->
+                        <li
+                            class="with-x"
+                            v-for="(attrValue, index) in searchParams.props"
+                            :key="index"
+                        >
+                            {{ attrValue.split(':')[1] }}
+                            <i @click="removeAttr(index)">×</i>
+                        </li>
                     </ul>
                 </div>
 
                 <!--selector-->
-                <SearchSelector @trademarkInfo="trademarkInfo" />
+                <SearchSelector @trademarkInfo="trademarkInfo" @attrInfo="attrInfo" />
 
                 <!--details-->
                 <div class="details clearfix">
@@ -207,6 +215,20 @@ export default {
         // 自定义事件 -- 子组件触发事件, 父组件接收事件
         trademarkInfo(trademark) {
             this.searchParams.trademark = `${trademark.tmId}: ${trademark.tmName}`;
+            this.getData();
+        },
+        // 自定义事件
+        attrInfo(attr, attrValue) {
+            let props = `${attr.attrId}:${attrValue}:${attr.attrName}`;
+            // 需要数组去重,防止重复点击,使数据重复
+            if (this.searchParams.props.indexOf(props) === -1) {
+                this.searchParams.props.push(props);
+                this.getData();
+            }
+        },
+        // 删除售卖的属性
+        removeAttr(index) {
+            this.searchParams.props.splice(index, 1);
             this.getData();
         },
     },

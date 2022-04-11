@@ -22,7 +22,11 @@
             <div class="fl key">{{ attr.attrName }}</div>
             <div class="fl value">
                 <ul class="type-list">
-                    <li v-for="(attrValue, index) in attr.attrValueList" :key="index">
+                    <li
+                        v-for="(attrValue, index) in attr.attrValueList"
+                        :key="index"
+                        @click="attrHandler(attr, attrValue)"
+                    >
                         <a>{{ attrValue }}</a>
                     </li>
                 </ul>
@@ -45,6 +49,10 @@ export default {
             // 整理参数, 向服务器发送请求获取相应的参数
             // 子组件向父组件传递参数 -- 自定义事件
             this.$emit('trademarkInfo', trademark);
+        },
+        // 平台售卖属性值的点击事件
+        attrHandler(attr, attrValue) {
+            this.$emit('attrInfo', attr, attrValue);
         },
     },
 };
