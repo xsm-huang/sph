@@ -91,9 +91,20 @@
                         </div>
                         <div class="cartWrap">
                             <div class="controls">
-                                <input autocomplete="off" class="itxt" />
-                                <a href="javascript:" class="plus">+</a>
-                                <a href="javascript:" class="mins">-</a>
+                                <input
+                                    autocomplete="off"
+                                    class="itxt"
+                                    v-model="skuNum"
+                                    @change="changeSkuNum($event)"
+                                />
+                                <a href="javascript:" class="plus" @click="skuNum++">+</a>
+                                <a
+                                    href="javascript:"
+                                    class="mins"
+                                    @click="skuNum > 1 ? skuNum-- : skuNum"
+                                >
+                                    -
+                                </a>
                             </div>
                             <div class="add">
                                 <a href="javascript:">加入购物车</a>
@@ -342,6 +353,11 @@ import Zoom from './Zoom/Zoom';
 export default {
     name: 'Detail',
     components: { ImageList, Zoom },
+    data() {
+        return {
+            skuNum: 1,
+        };
+    },
     computed: {
         ...mapGetters('detailAbout', ['categoryView', 'skuInfo', 'spuSaleAttrList']),
         skuImageList() {
@@ -349,12 +365,21 @@ export default {
             return this.skuInfo.skuImageList || [];
         },
     },
+
     methods: {
         changeActive(arr, spuSaleAttrValue) {
             arr.forEach((item) => {
                 item.isChecked = 0;
             });
             spuSaleAttrValue.isChecked = 1;
+        },
+        changeSkuNum(event) {
+            let val = event.target.value * 1;
+            if (isNaN(val) || val < 1) {
+                this.skuNum = 1;
+            } else {
+                this.skuNum = parseInt(val);
+            }
         },
     },
     mounted() {
