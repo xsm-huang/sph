@@ -21,3 +21,6 @@ export const reqFloorList = () => mockRequest.get('/floor');
  *  @function 获取search模块数据,至少要传递一个空对象
  */
 export const reqGetSearchInfo = (params) => request({ url: '/list', method: 'POST', data: params });
+
+// 获取detail模块数据
+export const reqGoodsInfo = (skuId) => request({ url: `/item/${skuId}`, method: 'GET' });
