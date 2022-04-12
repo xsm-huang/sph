@@ -1,11 +1,11 @@
 <template>
     <div class="spec-preview">
         <img :src="imgObj.imgUrl" />
-        <div class="event"></div>
+        <div class="event" @mousemove="handler($event)"></div>
         <div class="big">
-            <img :src="imgObj.imgUrl" />
+            <img :src="imgObj.imgUrl" ref="bigImg" />
         </div>
-        <div class="mask"></div>
+        <div class="mask" ref="mask"></div>
     </div>
 </template>
 
@@ -13,11 +13,39 @@
 export default {
     name: 'Zoom',
     props: ['skuImageList'],
+    data() {
+        return {
+            currentIndex: 0,
+        };
+    },
     computed: {
         imgObj() {
             // 传递过来的值可能是一个空数组
-            return this.skuImageList[0] || {};
+            return this.skuImageList[this.currentIndex] || {};
         },
+    },
+    methods: {
+        handler(event) {
+            let mask = this.$refs.mask;
+            let bigImg = this.$refs.bigImg;
+            let left = event.offsetX - mask.offsetWidth / 2;
+            let top = event.offsetY - mask.offsetHeight / 2;
+
+            left = left < 0 ? 0 : left;
+            left = left > mask.offsetWidth ? mask.offsetWidth : left;
+            top = top < 0 ? 0 : top;
+            top = top > mask.offsetHeight ? mask.offsetHeight : top;
+
+            mask.style.left = left + 'px';
+            mask.style.top = top + 'px';
+            bigImg.style.left = -2 * left + 'px';
+            bigImg.style.top = -2 * top + 'px';
+        },
+    },
+    mounted() {
+        this.$bus.$on('getIndex', (index) => {
+            this.currentIndex = index;
+        });
     },
 };
 </script>
