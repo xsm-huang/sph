@@ -46,23 +46,30 @@
                     <div class="sui-navbar">
                         <div class="navbar-inner filter">
                             <ul class="sui-nav">
-                                <li class="active">
-                                    <a href="#">综合</a>
+                                <li :class="{ active: isOne }" @click="changeOrder('1')">
+                                    <a>
+                                        综合
+                                        <span
+                                            v-show="isOne"
+                                            class="iconfont"
+                                            :class="{ 'icon-up': isAsc, 'icon-down': isDesc }"
+                                        ></span>
+                                    </a>
                                 </li>
-                                <li>
-                                    <a href="#">销量</a>
-                                </li>
-                                <li>
-                                    <a href="#">新品</a>
-                                </li>
-                                <li>
-                                    <a href="#">评价</a>
-                                </li>
-                                <li>
-                                    <a href="#">价格⬆</a>
-                                </li>
-                                <li>
-                                    <a href="#">价格⬇</a>
+
+                                <li
+                                    :class="{ active: isTow }"
+                                    @click="changeOrder('2')"
+                                    @mouseenter="aaa()"
+                                >
+                                    <a>
+                                        价格
+                                        <span
+                                            v-show="isTow"
+                                            class="iconfont"
+                                            :class="{ 'icon-up': isAsc, 'icon-down': isDesc }"
+                                        ></span>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -154,7 +161,7 @@ export default {
                 category3Id: '', //三级分类id
                 categoryName: '', //分类名
                 keyword: '', // 关键字
-                order: '', //排序
+                order: '1:desc', //排序, 初始状态:综合|降序
                 pageNo: 1, // 当前页
                 pageSize: 10, // 展示数据个数
                 props: [], // 平台售卖商品属性
@@ -164,6 +171,18 @@ export default {
     },
     computed: {
         ...mapGetters('searchAbout', ['goodsList']),
+        isOne() {
+            return this.searchParams.order.indexOf('1') !== -1;
+        },
+        isTow() {
+            return this.searchParams.order.indexOf('2') !== -1;
+        },
+        isAsc() {
+            return this.searchParams.order.indexOf('asc') !== -1;
+        },
+        isDesc() {
+            return this.searchParams.order.indexOf('desc') !== -1;
+        },
     },
     watch: {
         // 监听路由路径变化,并据此重新发送Ajax,展示新的商品
@@ -229,6 +248,22 @@ export default {
         // 删除售卖的属性
         removeAttr(index) {
             this.searchParams.props.splice(index, 1);
+            this.getData();
+        },
+        // 排序操作
+        changeOrder(flag) {
+            const originFlag = this.searchParams.order.split(':')[0];
+            const originSort = this.searchParams.order.split(':')[1];
+            // 准备一个新的排序字符串
+            let newOrder = '';
+            if (flag == originFlag) {
+                newOrder = `${originFlag}:${originSort == 'desc' ? 'asc' : 'desc'}`;
+            } else {
+                newOrder = `${flag}:desc`;
+            }
+            console.log(newOrder);
+            // 将新的 order 赋予 searchParams
+            this.searchParams.order = newOrder;
             this.getData();
         },
     },
