@@ -4,17 +4,18 @@
  */
 import { reqGoodsInfo } from '@/api';
 const state = {
-    goodInfo:{}
+    goodInfo: {},
 };
 const mutations = {
-    GETGOODINFO(state,goodInfo) {
+    GETGOODINFO(state, goodInfo) {
         state.goodInfo = goodInfo;
-    }
+        console.log(goodInfo);
+    },
 };
 const actions = {
     async getGoodInfo({ commit }, skuId) {
         const res = await reqGoodsInfo(skuId);
-        if (skuId.code == 200) {
+        if (res.code == 200) {
             commit('GETGOODINFO', res.data);
         }
     },
