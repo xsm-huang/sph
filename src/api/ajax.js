@@ -6,6 +6,7 @@
 import axios from 'axios';
 import nprogress from 'nprogress'; // 引入进度条
 import 'nprogress/nprogress.css'; // 引入进度条样式
+import { getUUID } from '@/utils/uuid_token';
 
 // 利用axios对象方法create，创建一个axios实例
 const request = axios.create({
@@ -17,6 +18,7 @@ const request = axios.create({
 
 // 请求拦截器：在发送请求之前，请求拦截器可以检测到，可以在请求发出去之前做一些事
 request.interceptors.request.use((config) => {
+    config.headers.userTempId = getUUID();
     // 进度条开始
     nprogress.start();
     // config 是一个配置对象，有一个属性 header 请求头

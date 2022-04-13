@@ -67,6 +67,15 @@
 <script>
 export default {
     name: 'ShopCart',
+    methods: {
+        // 获取购物车数据
+        getData() {
+            this.$store.dispatch('shopcartAbout/getCartList');
+        },
+    },
+    mounted() {
+        this.getData();
+    },
 };
 </script>
 
