@@ -24,3 +24,7 @@ export const reqGetSearchInfo = (params) => request({ url: '/list', method: 'POS
 
 // 获取detail模块数据
 export const reqGoodsInfo = (skuId) => request({ url: `/item/${skuId}`, method: 'GET' });
+
+// 添加到购物车 / 获取更新某一个产品的个数 /api/cart/addToCart/{ skuId }/{ skuNum }
+export const reqAddorUpdateShopCart = (skuId, skuNum) =>
+    request({ url: `/api/cart/addToCart/${skuId}/${skuNum}`, method: 'POST' });

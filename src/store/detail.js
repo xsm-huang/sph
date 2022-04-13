@@ -19,6 +19,17 @@ const actions = {
             commit('GETGOODINFO', res.data);
         }
     },
+    async addorUpdateShopCart({ commit }, { skuId, skuNum }) {
+        const res = await reqGoodsInfo(skuId, skuNum);
+        // 加入购物车后，服务器写入数据成功，只是返回 code=200，表示操作成功
+        // 服务器没有返回数据，所以不需要仓库存储数据
+        if (res.code == 200) {
+            return 'ok';
+        } else {
+            // 代表加入购物车失败
+            return Promise.reject(new Error('faile'));
+        }
+    },
 };
 const getters = {
     categoryView(state) {

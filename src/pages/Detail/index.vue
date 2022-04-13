@@ -107,7 +107,7 @@
                                 </a>
                             </div>
                             <div class="add">
-                                <a href="javascript:">加入购物车</a>
+                                <a href="javascript:" @click="addShopCart">加入购物车</a>
                             </div>
                         </div>
                     </div>
@@ -381,6 +381,25 @@ export default {
             } else {
                 this.skuNum = parseInt(val);
             }
+        },
+        // 加入购物车
+        addShopCart() {
+            // 派发actions, 通知服务器, 调用 actions 返回的是一个 promise 对象
+            this.$store
+                .dispatch('detailAbout/addorUpdateShopCart', {
+                    skuId: this.$route.params.skuId,
+                    skuNum: this.skuNum,
+                })
+                .then(() => {
+                    // 成功进行路由跳转
+                    // 将产品信息一起带过去
+                    this.$router.push({ path: '/addcartsuccess', query: { skuNum: this.skuNum } });
+                    // 使用浏览器本地会话存储
+                    sessionStorage.setItem('SKUINFO', JSON.stringify(this.skuInfo));
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
     },
     mounted() {
