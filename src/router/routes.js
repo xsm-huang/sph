@@ -10,6 +10,7 @@ import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import Detail from '@/pages/Detail';
 import AddCartSuccess from '@/pages/AddCartSuccess';
+import ShopCart from '@/pages/ShopCart';
 export default [
     // 重定向，在项目运行时，访问时定向到 /home
     {
@@ -55,6 +56,13 @@ export default [
     {
         path: '/addcartsuccess',
         component: AddCartSuccess,
+        meta: {
+            showFooter: true,
+        },
+    },
+    {
+        path: '/shopcart',
+        component: ShopCart,
         meta: {
             showFooter: true,
         },
