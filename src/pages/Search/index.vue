@@ -57,11 +57,7 @@
                                     </a>
                                 </li>
 
-                                <li
-                                    :class="{ active: isTow }"
-                                    @click="changeOrder('2')"
-                                    @mouseenter="aaa()"
-                                >
+                                <li :class="{ active: isTow }" @click="changeOrder('2')">
                                     <a>
                                         价格
                                         <span
