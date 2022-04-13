@@ -373,6 +373,7 @@ export default {
             });
             spuSaleAttrValue.isChecked = 1;
         },
+        // 判读用户输入的内容是否合法
         changeSkuNum(event) {
             let val = event.target.value * 1;
             if (isNaN(val) || val < 1) {
