@@ -13,7 +13,12 @@
             <div class="cart-body">
                 <ul class="cart-list" v-for="cart in cartInfoList" :key="cart.id">
                     <li class="cart-list-con1">
-                        <input type="checkbox" name="chk_list" :checked="cart.isChecked == 1" />
+                        <input
+                            type="checkbox"
+                            name="chk_list"
+                            :checked="cart.isChecked == 1"
+                            @change="updateisChecked(cart, $event)"
+                        />
                     </li>
                     <li class="cart-list-con2">
                         <img :src="cart.imgUrl" />
@@ -144,6 +149,21 @@ export default {
             // console.log(skuId);
             this.$store
                 .dispatch('shopcartAbout/deleteCartList', skuId)
+                .then(() => {
+                    this.getData();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        // 修改产品的勾选状态
+        updateisChecked(cart, event) {
+            const isChecked = event.target.checked ? '1' : '0';
+            this.$store
+                .dispatch('shopcartAbout/updateChecked', {
+                    skuId: cart.skuId,
+                    isChecked: isChecked,
+                })
                 .then(() => {
                     this.getData();
                 })

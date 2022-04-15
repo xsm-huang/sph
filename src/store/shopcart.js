@@ -3,7 +3,7 @@
  * @description shopcart仓库
  */
 
-import { reqCartList, reqDeleteCart } from '@/api';
+import { reqCartList, reqDeleteCart, reqUpdateChecked } from '@/api';
 const state = {
     cartList: [],
 };
@@ -22,6 +22,15 @@ const actions = {
     // 删除购物车产品
     async deleteCartList({ commit }, skuId) {
         const res = await reqDeleteCart(skuId);
+        if (res.code == 200) {
+            return 'ok';
+        } else {
+            return Promise.reject(new Error('faile'));
+        }
+    },
+    // 修改产品选中状态
+    async updateChecked({ commit }, { skuId, isChecked }) {
+        const res = await reqUpdateChecked(skuId, isChecked);
         if (res.code == 200) {
             return 'ok';
         } else {
