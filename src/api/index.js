@@ -31,3 +31,7 @@ export const reqAddorUpdateShopCart = (skuId, skuNum) =>
 
 // 获取购物车列表 /api/cart/cartList
 export const reqCartList = () => request({ url: '/cart/cartList', method: 'GET' });
+
+// 删除购物车产品数量 /api/cart/deleteCart/{skuId}
+export const reqDeleteCart = (skuId) =>
+    request({ url: `/cart/deleteCart/${skuId}`, method: 'DELETE' });

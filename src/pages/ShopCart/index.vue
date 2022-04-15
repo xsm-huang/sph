@@ -47,7 +47,7 @@
                         <span class="sum">{{ cart.skuNum * cart.skuPrice }}</span>
                     </li>
                     <li class="cart-list-con7">
-                        <a href="#none" class="sindelet">删除</a>
+                        <a href="#none" class="sindelet" @click="deleteCart(cart.skuId)">删除</a>
                         <br />
                         <a href="#none">移到收藏</a>
                     </li>
@@ -139,6 +139,17 @@ export default {
                         console.log(err);
                     });
             }
+        },
+        deleteCart(skuId) {
+            // console.log(skuId);
+            this.$store
+                .dispatch('shopcartAbout/deleteCartList', skuId)
+                .then(() => {
+                    this.getData();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
     },
     mounted() {
