@@ -11,26 +11,40 @@
                 <div class="cart-th6">操作</div>
             </div>
             <div class="cart-body">
-                <ul class="cart-list">
+                <ul class="cart-list" v-for="cart in cartInfoList" :key="cart.id">
                     <li class="cart-list-con1">
-                        <input type="checkbox" name="chk_list" />
+                        <input type="checkbox" name="chk_list" :checked="cart.isChecked == 1" />
                     </li>
                     <li class="cart-list-con2">
-                        <img src="./images/goods1.png" />
+                        <img :src="cart.imgUrl" />
                         <div class="item-msg">
-                            米家（MIJIA） 小米小白智能摄像机增强版 1080p高清360度全景拍摄AI增强
+                            {{ cart.skuName }}
                         </div>
                     </li>
                     <li class="cart-list-con4">
-                        <span class="price">399.00</span>
+                        <span class="price">{{ cart.skuPrice }}</span>
                     </li>
                     <li class="cart-list-con5">
-                        <a href="javascript:void(0)" class="mins">-</a>
-                        <input autocomplete="off" type="text" value="1" minnum="1" class="itxt" />
-                        <a href="javascript:void(0)" class="plus">+</a>
+                        <a
+                            href="javascript:void(0)"
+                            class="mins"
+                            @click="handler('minus', -1, cart)"
+                            >-</a
+                        >
+                        <input
+                            autocomplete="off"
+                            type="text"
+                            :value="cart.skuNum"
+                            minnum="1"
+                            class="itxt"
+                            @change="handler('change', $event.target.value * 1, cart)"
+                        />
+                        <a href="javascript:void(0)" class="plus" @click="handler('add', 1, cart)"
+                            >+</a
+                        >
                     </li>
                     <li class="cart-list-con6">
-                        <span class="sum">399</span>
+                        <span class="sum">{{ cart.skuNum * cart.skuPrice }}</span>
                     </li>
                     <li class="cart-list-con7">
                         <a href="#none" class="sindelet">删除</a>
@@ -42,7 +56,7 @@
         </div>
         <div class="cart-tool">
             <div class="select-all">
-                <input class="chooseAll" type="checkbox" />
+                <input class="chooseAll" type="checkbox" :checked="isAllChecked" />
                 <span>全选</span>
             </div>
             <div class="option">
@@ -54,7 +68,7 @@
                 <div class="chosed">已选择 <span>0</span>件商品</div>
                 <div class="sumprice">
                     <em>总价（不含运费） ：</em>
-                    <i class="summoney">0</i>
+                    <i class="summoney">{{ totalPrice }}</i>
                 </div>
                 <div class="sumbtn">
                     <a class="sum-btn" href="###" target="_blank">结算</a>
@@ -65,12 +79,66 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
     name: 'ShopCart',
+    computed: {
+        ...mapGetters('shopcartAbout', ['cartList']),
+        // 购物车数据
+        cartInfoList() {
+            return this.cartList.cartInfoList || [];
+        },
+        // 计算购买产品的总价
+        totalPrice() {
+            let sum = 0;
+            this.cartInfoList.forEach((item) => {
+                sum += item.skuNum * item.skuPrice;
+            });
+            return sum;
+        },
+        // 判断全选
+        isAllChecked() {
+            return this.cartInfoList.every((item) => item.isChecked == 1);
+        },
+    },
     methods: {
         // 获取购物车数据
         getData() {
             this.$store.dispatch('shopcartAbout/getCartList');
+        },
+        // 修改某产品数量
+        handler(type, disNum, cart) {
+            switch (type) {
+                case 'add':
+                    disNum = 1;
+                    break;
+                case 'minus':
+                    disNum = cart.skuNum > 1 ? -1 : 0;
+                    break;
+                case 'change':
+                    if (isNaN(disNum) && disNum < 1) {
+                        disNum = 0;
+                    } else {
+                        disNum = parseInt(disNum) - cart.skuNum;
+                    }
+                    break;
+            }
+            cart.skuNum += disNum;
+
+            if (disNum != 0) {
+                // 派发actions
+                this.$store
+                    .dispatch('detailAbout/addorUpdateShopCart', {
+                        skuId: cart.skuId,
+                        skuNum: disNum,
+                    })
+                    .then(() => {
+                        this.getData();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
         },
     },
     mounted() {
