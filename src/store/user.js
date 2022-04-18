@@ -2,19 +2,23 @@
  * @author xsm 2022-04-17
  * @description user仓库 登陆注册模块
  */
-import { reqGetCode, reqUserRegister, reqUserLogin } from '@/api';
+import { reqGetCode, reqUserRegister, reqUserLogin, reqUserInfo } from '@/api';
 
 const state = {
     code: '',
-    token: '',
+    // token: '',
+    userInfo: {},
 };
 const mutations = {
     GETCODE(state, code) {
         state.code = code;
     },
 
-    USERLOGIN(state, token) {
-        state.token = token;
+    // USERLOGIN(state, token) {
+    //     state.token = token;
+    // },
+    GETUSERINFO(state, userInfo) {
+        state.userInfo = userInfo;
     },
 };
 const actions = {
@@ -44,10 +48,19 @@ const actions = {
     async userLogin({ commit }, data) {
         const res = await reqUserLogin(data);
         if (res.code == 200) {
-            commit('USERLOGIN', res.data.token);
+            // commit('USERLOGIN', res.data.token);
+            // 持久化存储
+            localStorage.setItem('TOKEN', res.data.token);
             return 'ok';
         } else {
             return Promise.reject(new Error('faile'));
+        }
+    },
+
+    async getUserInfo({ commit }) {
+        const res = await reqUserInfo();
+        if (res.code == 200) {
+            commit('GETUSERINFO', res.data);
         }
     },
 };

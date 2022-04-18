@@ -29,6 +29,8 @@ export default {
     mounted() {
         // 获取Floor组件数据, 因为要生成多个floor组件,所以数据不可以在floor中获取
         this.$store.dispatch('homeAbout/getFloorList');
+        // 获取用户信息
+        this.$store.dispatch('userAbout/getUserInfo');
     },
 };
 </script>
