@@ -2,7 +2,7 @@
  * @author xsm 2022-04-17
  * @description user仓库 登陆注册模块
  */
-import { reqGetCode, reqUserRegister, reqUserLogin, reqUserInfo } from '@/api';
+import { reqGetCode, reqUserRegister, reqUserLogin, reqUserInfo, reqLogout } from '@/api';
 
 const state = {
     code: '',
@@ -19,6 +19,9 @@ const mutations = {
     // },
     GETUSERINFO(state, userInfo) {
         state.userInfo = userInfo;
+    },
+    CLEAR(state) {
+        state.userInfo = {};
     },
 };
 const actions = {
@@ -57,10 +60,21 @@ const actions = {
         }
     },
 
+    // 获取用户信息
     async getUserInfo({ commit }) {
         const res = await reqUserInfo();
         if (res.code == 200) {
             commit('GETUSERINFO', res.data);
+        }
+    },
+
+    async userLogout({ commit }) {
+        // 像服务器发送请求,清除token
+        const res = await reqLogout();
+        if (res.code == 200) {
+            // 清除本地用户数据和 token
+            commit('CLEAR');
+            localStorage.removeItem('TOKEN');
         }
     },
 };

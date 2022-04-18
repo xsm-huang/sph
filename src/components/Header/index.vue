@@ -12,7 +12,7 @@
                     </p>
                     <p v-if="userInfo.name">
                         <a>{{ userInfo.name }}</a>
-                        <router-link to="/home" class="register">退出登陆</router-link>
+                        <a class="register" @click="logout"> 退出登陆 </a>
                     </p>
                 </div>
                 <div class="typeList">
@@ -77,6 +77,19 @@ export default {
                 location.query = this.$route.query;
             }
             this.$router.push(location);
+        },
+
+        // 退出登陆
+        logout() {
+            // 发送请求通知服务器退出登陆
+            this.$store
+                .dispatch('userAbout/userLogout')
+                .then(() => {
+                    this.$router.push('/home');
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
     },
 
