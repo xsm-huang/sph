@@ -17,9 +17,7 @@ export const reqBannerList = () => mockRequest({ url: '/banner', method: 'GET' }
 export const reqFloorList = () => mockRequest.get('/floor');
 //-----------------------------mock
 
-/**
- *  @function 获取search模块数据,至少要传递一个空对象
- */
+// 获取search模块数据,至少要传递一个空对象
 export const reqGetSearchInfo = (params) => request({ url: '/list', method: 'POST', data: params });
 
 // 获取detail模块数据
@@ -39,3 +37,15 @@ export const reqDeleteCart = (skuId) =>
 // 修改商品选中状态 /cart/checkCart/{skuID}/{isChecked}
 export const reqUpdateChecked = (skuId, isChecked) =>
     request({ url: `/cart/checkCart/${skuId}/${isChecked}`, method: 'GET' });
+
+// 获取验证码 /api/user/passport/sendCode/{phone}
+export const reqGetCode = (phone) =>
+    request({ url: `/user/passport/sendCode/${phone}`, method: 'get' });
+
+// 注册 /api/user/passport/register
+export const reqUserRegister = (data) =>
+    request({
+        url: `/user/passport/register`,
+        method: 'post',
+        data,
+    });

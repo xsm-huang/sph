@@ -8,6 +8,7 @@ import homeAbout from '@/store/home';
 import searchAbout from '@/store/search';
 import detailAbout from '@/store/detail';
 import shopcartAbout from '@/store/shopcart';
+import userAbout from '@/store/user';
 // 使用插件一次
 Vue.use(Vuex);
 
@@ -18,5 +19,6 @@ export default new Vuex.Store({
         searchAbout,
         detailAbout,
         shopcartAbout,
+        userAbout,
     },
 });
