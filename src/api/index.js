@@ -49,3 +49,7 @@ export const reqUserRegister = (data) =>
         method: 'post',
         data,
     });
+
+// 登陆 /api/user/passport/login
+export const reqUserLogin = (data) =>
+    request({ url: `/user/passport/login`, method: 'POST', data });
