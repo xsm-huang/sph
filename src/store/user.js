@@ -65,6 +65,9 @@ const actions = {
         const res = await reqUserInfo();
         if (res.code == 200) {
             commit('GETUSERINFO', res.data);
+            return 'ok';
+        } else {
+            return Promise.reject(res.message);
         }
     },
 

@@ -4,6 +4,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import routes from './routes';
+import store from '@/store';
 // 使用插件
 Vue.use(VueRouter);
 
@@ -48,7 +49,7 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
     }
 };
 
-export default new VueRouter({
+const router = new VueRouter({
     // 配置路由
     routes,
     // 滚动行为
@@ -56,3 +57,38 @@ export default new VueRouter({
         return { y: 0 };
     },
 });
+
+// 全局路由守卫
+router.beforeEach((to, from, next) => {
+    next();
+    let token = localStorage.getItem('TOKEN');
+    // 用户信息
+    let userInfo = store._modules.root.state.userAbout.userInfo;
+    console.log(userInfo);
+    if (token) {
+        // 登陆了还想去登陆页面
+        if (to.path == '/login') {
+            next('/home');
+        } else {
+            if (userInfo.name) {
+                next();
+            } else {
+                store
+                    .dispatch('userAbout/getUserInfo')
+                    // 获取用户信息成功
+                    .then(() => {
+                        next();
+                    })
+                    .catch(async (err) => {
+                        // 获取用户信息失败, token 失效
+                        // 清除 token 和用户信息
+                        await store.dispatch('userAbout/userLogout');
+                        next('/login');
+                    });
+            }
+        }
+    } else {
+        next();
+    }
+});
+export default router;
