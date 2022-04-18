@@ -25,7 +25,6 @@ const actions = {
 
     // 用户注册
     async userRegister(content, { phone, code, password }) {
-        console.log(content.state.code);
         let result = await reqUserRegister({ phone, code, password });
         if (result.code == 200) {
             return 'ok';

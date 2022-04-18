@@ -80,7 +80,7 @@ export default {
                     this.code = this.myCode;
                 })
                 .catch((error) => {
-                    console.log('error', error);
+                    console.log(error);
                 });
         },
         // 用户注册成功提交
@@ -94,7 +94,7 @@ export default {
                     alert('有非法输入');
                 }
             } catch (error) {
-                console.log(error);
+                alert(error);
             }
         },
     },
