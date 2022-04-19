@@ -64,7 +64,6 @@ router.beforeEach((to, from, next) => {
     let token = localStorage.getItem('TOKEN');
     // 用户信息
     let userInfo = store._modules.root.state.userAbout.userInfo;
-    console.log(userInfo);
     if (token) {
         // 登陆了还想去登陆页面
         if (to.path == '/login') {
