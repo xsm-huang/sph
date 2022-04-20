@@ -145,7 +145,7 @@ export default {
                 // 路由跳转
                 this.$router.push(`/pay?orderId=${this.orderId}`);
             } else {
-                alert(res.data);
+                alert(res.message);
             }
         },
     },

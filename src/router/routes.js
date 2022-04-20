@@ -13,6 +13,10 @@ import AddCartSuccess from '@/pages/AddCartSuccess';
 import ShopCart from '@/pages/ShopCart';
 import Trade from '@/pages/Trade';
 import Pay from '@/pages/Pay';
+import PaySuccess from '@/pages/PaySuccess';
+import Center from '@/pages/Center';
+import MyOrder from '@/pages/Center/MyOreder';
+import GroupOrder from '@/pages/Center/GroupOrder';
 export default [
     // 重定向，在项目运行时，访问时定向到 /home
     {
@@ -82,5 +86,32 @@ export default [
         meta: {
             showFooter: true,
         },
+    },
+    {
+        path: '/paysuccess',
+        component: PaySuccess,
+        meta: {
+            showFooter: true,
+        },
+    },
+    {
+        path: '/center',
+        component: Center,
+        meta: {
+            showFooter: true,
+        },
+        // 二级路由组件
+        children: [
+            {
+                path: 'myorder',
+                component: MyOrder,
+            },
+            {
+                path: 'grouporder',
+                component: GroupOrder,
+            },
+        ],
+        // 重定位
+        redirect: '/center/myorder',
     },
 ];

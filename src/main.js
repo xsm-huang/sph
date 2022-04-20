@@ -9,13 +9,17 @@ import store from '@/store'; // 引入仓库
 import '@/mock/mockServe'; // 引入mock模拟数据
 import 'swiper/css/swiper.min.css'; // 引入轮播图样式
 import * as API from '@/api'; // 引入接口 api 中的全部请求函数
-
+import { Button, MessageBox } from 'element-ui'; // 使用 element-ui，局部引入
 Vue.config.productionTip = false;
 
 // 注册组件
 Vue.component(TypeNav.name, TypeNav);
 Vue.component(Carousel.name, Carousel);
 Vue.component(Pagination.name, Pagination);
+Vue.component(Button.name, Button); // 注册 element-ui
+
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
 
 new Vue({
     render: (h) => h(App),
