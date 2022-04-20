@@ -66,3 +66,7 @@ export const reqAdderssInfo = () =>
 
 // 获取商品清单 /order/auth/trade
 export const reqOrderInfo = () => request({ url: `/order/auth/trade`, method: 'GET' });
+
+// 提交订单 /api/order/auth/submitOrder?tradeNo={tradeNo}
+export const reqSubmitOrder = (tradeNo, data) =>
+    request({ url: `/order/auth/submitOrder?tradeNo=${tradeNo}`, method: 'POST', data });

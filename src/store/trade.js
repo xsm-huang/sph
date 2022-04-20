@@ -24,6 +24,7 @@ const actions = {
     },
     async getOrderInfo({ commit }) {
         const res = await reqOrderInfo();
+        console.log(res);
         if (res.code == 200) {
             commit('GETORDERINFO', res.data);
         }
